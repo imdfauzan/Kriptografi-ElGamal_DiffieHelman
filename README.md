@@ -2,39 +2,90 @@
 
 Program ini mensimulasikan pembagian dokumen slip gaji antara **HRD** dan **Karyawan** menggunakan protokol **Diffie-Hellman Key Exchange** dan algoritma kriptografi kunci publik **ElGamal**.
 
-Seluruh perhitungan di program ini dibangun **dari nol (*from scratch*) tanpa menggunakan library kriptografi eksternal**.
+Seluruh perhitungan di program ini dibuat dari nol / *from scratch* tanpa import library kriptografi.
 
 ---
 
-## Fitur Utama
+## Fitur
 
-1. **Pure Mathematical Implementation (Tanpa Library Kriptografi):**
+1. **Pure Mathematical Implementation (Tanpa Import Library Kriptografi):**
    - *Modular Exponentiation* (`Square-and-Multiply Algorithm`)
    - *Primality Testing* & *Prime Factorization*
    - *Automated Primitive Root (Generator $g$) Finder*
    - *Extended Euclidean Algorithm* & *Fermat's Little Theorem* untuk *Modular Multiplicative Inverse*
-2. **3 Tab GUI:**
+2. **Terdapat 3 Tab:**
    - **Tab 1: Karyawan** — Pembangkitan parameter domain $(p, g)$, pembuatan pasangan kunci (*Public Key* & *Private Key*), verifikasi *Shared Secret Key* Diffie-Hellman, serta dekripsi file slip gaji (`.enc`).
    - **Tab 2: HRD** — Simulasi *Diffie-Hellman Key Exchange Handshake*, pengisian form rincian gaji karyawan, serta enkripsi *probabilistic* ElGamal ke dalam file `.enc`.
-   - **Tab 3: Log Perhitungan** — Transparansi alur perhitungan matematika langkah demi langkah (*step-by-step*) untuk keperluan edukasi dan verifikasi manual.
+   - **Tab 3: Log Perhitungan** — Transparansi alur perhitungan matematika step-by-step.
 
 ---
 
-## Arsitektur Kode Program
+## Arsitektur Kode
 
 Kode di dalam program ini dibagi menjadi 3 bagian utama:
-- **`SECTION 1: CORE MATH LOGIC`** — Berisi fungsi-fungsi aritmetika modulo dasar (`mod_exp`, `is_prime`, `find_primitive_root`, `extended_gcd`, `mod_inverse`).
-- **`SECTION 2: DIFFIE-HELLMAN & ELGAMAL CRYPTO LOGIC`** — Berisi fungsi inti protokol Diffie-Hellman (`dh_generate_keypair`, `dh_compute_shared_key`) dan algoritma ElGamal (`elgamal_encrypt`, `elgamal_decrypt`).
-- **`SECTION 3: GUI & APPLICATION FLOW`** — Berisi manajemen antarmuka pengguna Tkinter yang terbagi ke dalam 3 Tab beserta *event handler* untuk eksekusi file `.enc`.
+- **`SECTION 1: CORE MATH LOGIC`**
+  - Berisi fungsi-fungsi aritmetika modulo dasar (`mod_exp`, `is_prime`, `find_primitive_root`, `extended_gcd`, `mod_inverse`).
+- **`SECTION 2: DIFFIE-HELLMAN & ELGAMAL CRYPTO LOGIC`**
+  - Fungsi inti Diffie-Hellman (`dh_generate_keypair`, `dh_compute_shared_key`) dan algoritma ElGamal (`elgamal_encrypt`, `elgamal_decrypt`).
+- **`SECTION 3: GUI & APPLICATION FLOW`**
+  - Kode UI yang terbagi ke dalam 3 Tab dan *event handler* untuk eksekusi file `.enc`.
 
 ---
 
 ## Cara Run
    ```bash
-   python slip_gaji_dh_elgamal.py
+   python implemetationElGamal.py
    ```
 
-## Panduan Penggunaan 
+## Panduan dan Alur Kerja Program
+```mermaid
+flowchart TD
+    A([Mulai]) --> B[Run program]
+    B --> C[Tab 1: Karyawan]
+    C --> D[Klik Generate Parameter & Kunci]
+
+    D --> E[/p, g, private key x,<br/>dan public key Y dibuat/]
+    E --> F[Public key otomatis<br/>dikirim ke Tab HRD]
+    F --> G[Tab 2: HRD]
+
+    G --> H{Parameter<br/>sudah ada?}
+    H -- Belum --> C
+    H -- Sudah --> I[Klik Uji Diffie-Hellman]
+
+    I --> J[/Shared Secret K<br/>cocok dan valid/]
+    J --> K[Isi rincian gaji]
+    K --> L[Klik Enkripsi & Simpan]
+
+    L --> M{Pilih lokasi<br/>penyimpanan?}
+    M -- Batal --> K
+    M -- Simpan --> N[/File .enc<br/>berhasil dibuat/]
+
+    N --> O[Tab 1: Karyawan]
+    O --> P[Klik Load File & Dekripsi]
+    P --> Q{File .enc<br/>dipilih?}
+    Q -- Batal --> O
+    Q -- Ya --> R[Program mendekripsi file]
+    R --> S[/Slip gaji asli<br/>ditampilkan/]
+    S --> T([Selesai])
+
+    D -.-> LOG[("Tab 3:<br/>Log Perhitungan")]
+    I -.-> LOG
+    L -.-> LOG
+    R -.-> LOG
+
+    classDef startend fill:#1f7a5a,color:#fff,stroke:#14543e,stroke-width:2px;
+    classDef process fill:#e8f1ff,color:#17365d,stroke:#4a75a8,stroke-width:1.5px;
+    classDef decision fill:#fff4cc,color:#6b4f00,stroke:#c99a00,stroke-width:1.5px;
+    classDef data fill:#f4eaff,color:#5b2c6f,stroke:#9b59b6,stroke-width:1.5px;
+    classDef log fill:#f1f1f1,color:#444,stroke:#777,stroke-width:1.5px;
+
+    class A,T startend;
+    class B,C,D,F,G,I,K,L,O,P,R process;
+    class H,M,Q decision;
+    class E,J,N,S data;
+    class LOG log;
+```
+
 ### Langkah 1: Pembangkitan Parameter & Kunci (Tab 1: Karyawan)
 - Setelah di Run, pastikan berada di Tab 1: Karyawan
 - Klik tombol "Generate Parameter & Kunci Karyawan (Kirim Public Key ke Tab HRD)", otomatis akan:
@@ -69,6 +120,6 @@ Kode di dalam program ini dibagi menjadi 3 bagian utama:
     - Mencari modular inverse $s^{-1} \bmod p$
     - Menghitung $m = (b \cdot s^{-1}) \bmod p$ dan mengubahnya kembali menjadi teks slip gaji utuh di layar.
 
-### Langkah 5: Inspeksi Rumus & Perhitungan (Tab 3: Log Perhitungan)
-- Buka Tab 3: Log Perhitungan.
-- Llihat seluruh history perhitungan matematika mulai dari awal, hingga sampel perhitungan enkripsi dan dekripsi ElGamal per karakter.
+## Log Perhitungan
+- Terdapat **Tab 3: Log Perhitungan**.
+- Seluruh history perhitungan matematika mulai dari awal, hingga sampel perhitungan enkripsi dan dekripsi ElGamal per karakter tercacat disini.
