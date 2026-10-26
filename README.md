@@ -1,22 +1,17 @@
-# Sistem Distribusi Slip Gaji Terenkripsi (Diffie-Hellman & ElGamal)
+# Sistem Distribusi Slip Gaji yang Terenkripsi (Diffie-Hellman & ElGamal)
 
-Program ini mensimulasikan pembagian dokumen slip gaji antara **HRD** dan **Karyawan** menggunakan protokol **Diffie-Hellman Key Exchange** dan algoritma kriptografi kunci publik **ElGamal**.
+Program ini mensimulasikan skenario pembagian dokumen slip gaji antara **HRD** dan **Karyawan** menggunakan **Diffie-Hellman Key Exchange** dan algoritma kriptografi kunci publik **ElGamal**.
 
 Seluruh perhitungan di program ini dibuat dari nol / *from scratch* tanpa import library kriptografi.
 
 ---
 
-## Fitur
-
-1. **Pure Mathematical Implementation (Tanpa Import Library Kriptografi):**
-   - *Modular Exponentiation* (`Square-and-Multiply Algorithm`)
-   - *Primality Testing* & *Prime Factorization*
-   - *Automated Primitive Root (Generator $g$) Finder*
-   - *Extended Euclidean Algorithm* & *Fermat's Little Theorem* untuk *Modular Multiplicative Inverse*
-2. **Terdapat 3 Tab:**
-   - **Tab 1: Karyawan** — Pembangkitan parameter domain $(p, g)$, pembuatan pasangan kunci (*Public Key* & *Private Key*), verifikasi *Shared Secret Key* Diffie-Hellman, serta dekripsi file slip gaji (`.enc`).
-   - **Tab 2: HRD** — Simulasi *Diffie-Hellman Key Exchange Handshake*, pengisian form rincian gaji karyawan, serta enkripsi *probabilistic* ElGamal ke dalam file `.enc`.
-   - **Tab 3: Log Perhitungan** — Transparansi alur perhitungan matematika step-by-step.
+## Anggota Kelompok
+| Nama Lengkap | NRP |
+| :--- | :--- |
+| Naufal Ardhana | 5027241118 |
+| Imam Mahmud Dalil Fauzan | 5027241100 |
+| Nabilah Anindya | 5027241006 |
 
 ---
 
@@ -32,12 +27,12 @@ Kode di dalam program ini dibagi menjadi 3 bagian utama:
 
 ---
 
-## Cara Run
+## Panduan dan Alur Kerja Program
    ```bash
+   # Run Program
    python implemetationElGamal.py
    ```
 
-## Panduan dan Alur Kerja Program
 ```mermaid
 flowchart TD
     A([Mulai]) --> B[Run program]
@@ -123,3 +118,16 @@ flowchart TD
 ## Log Perhitungan
 - Terdapat **Tab 3: Log Perhitungan**.
 - Seluruh history perhitungan matematika mulai dari awal, hingga sampel perhitungan enkripsi dan dekripsi ElGamal per karakter tercacat disini.
+
+
+## Fitur
+
+1. **Pure Mathematical Implementation (Tanpa Import Library Kriptografi):**
+   - *Modular Exponentiation* (`Square-and-Multiply Algorithm`)
+   - *Primality Testing* & *Prime Factorization*
+   - *Automated Primitive Root (Generator $g$) Finder*
+   - *Extended Euclidean Algorithm* & *Fermat's Little Theorem* untuk *Modular Multiplicative Inverse*
+2. **Terdapat 3 Tab:**
+   - **Tab 1: Karyawan** — Pembangkitan parameter domain $(p, g)$, pembuatan pasangan kunci (*Public Key* & *Private Key*), verifikasi *Shared Secret Key* Diffie-Hellman, serta dekripsi file slip gaji (`.enc`).
+   - **Tab 2: HRD** — Simulasi *Diffie-Hellman Key Exchange Handshake*, pengisian form rincian gaji karyawan, serta enkripsi *probabilistic* ElGamal ke dalam file `.enc`.
+   - **Tab 3: Log Perhitungan** — Transparansi alur perhitungan matematika step-by-step.
